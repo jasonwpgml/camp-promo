@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>camp cards</title>
+<style>
+:root{
+  --ink:#1e1b17; --mute:#6b6157; --accent:#9e4426; --warn:#8a2a1c;
+  --glass:linear-gradient(140deg,rgba(255,255,255,.74),rgba(255,255,255,.44));
+  --glass-strong:linear-gradient(140deg,rgba(255,255,255,.92),rgba(255,255,255,.72));
+  --rose:linear-gradient(140deg,rgba(255,238,232,.92),rgba(255,224,214,.66));
+  --dark:linear-gradient(140deg,rgba(33,29,25,.94),rgba(58,49,40,.88));
+  --lift:0 34px 64px -30px rgba(58,38,18,.34),0 10px 22px -14px rgba(58,38,18,.22);
+}
+*{box-sizing:border-box}
+body{margin:0;background:#777;font-family:"Noto Sans KR","Malgun Gothic",sans-serif;color:var(--ink);word-break:keep-all}
+
+.card{width:1080px;padding:56px 60px 46px;display:flex;flex-direction:column;overflow:hidden;position:relative;isolation:isolate;margin:0 0 40px;
+  background:
+    radial-gradient(900px 640px at 12% 4%,#fbf8f2 0%,rgba(251,248,242,0) 62%),
+    radial-gradient(760px 760px at 100% 26%,#dccdb9 0%,rgba(220,205,185,0) 64%),
+    radial-gradient(900px 700px at 0% 100%,#c9d0c8 0%,rgba(201,208,200,0) 62%),
+    radial-gradient(760px 620px at 100% 104%,#a99683 0%,rgba(169,150,131,0) 62%),
+    #ebe4d9}
+/* soft shapes behind the glass so the blur has something to catch */
+.card::before,.card::after{content:"";position:absolute;z-index:-1;border-radius:50%;filter:blur(70px)}
+.card::before{width:560px;height:420px;right:-80px;top:220px;background:rgba(196,128,92,.42)}
+.card::after{width:620px;height:460px;left:-160px;bottom:120px;background:rgba(120,140,128,.34)}
+.sq{height:1080px}
+.pt{height:1350px}
+
+.glass{background:var(--glass);-webkit-backdrop-filter:blur(26px) saturate(140%);backdrop-filter:blur(26px) saturate(140%);border-radius:30px;box-shadow:var(--lift)}
+
+.who{display:flex;align-items:baseline;font-size:25px;color:var(--mute);margin:0 0 20px;letter-spacing:-.005em}
+.who .pg{margin-left:auto;font-weight:700;color:var(--ink)}
+
+h1{margin:0;font-size:66px;line-height:1.16;font-weight:800;letter-spacing:-.032em}
+h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin-right:14px;vertical-align:8px}
+.kicker{margin:0 0 4px;font-size:30px;font-weight:500;color:var(--mute)}
+
+.money{display:grid;grid-template-columns:318px 1fr;gap:20px;margin:28px 0 0}
+.money>div{padding:20px 30px 22px}
+.money small{display:block;font-size:26px;font-weight:500;color:var(--mute);line-height:1.3}
+.money strong{display:block;font-size:94px;line-height:1.06;font-weight:800;letter-spacing:-.035em}
+.money .pay strong{font-size:74px;color:var(--accent);padding-top:12px}
+.money em{font-style:normal;font-size:26px;font-weight:500;color:var(--mute)}
+
+.info{margin:20px 0 0;padding:14px 30px}
+.info>div{display:grid;grid-template-columns:142px 1fr;gap:12px;padding:8px 0;font-size:31px;line-height:1.36}
+.info dt{font-weight:500;color:var(--mute)}
+.info dd{margin:0;font-weight:700}
+.info>div.no{background:var(--rose);border-radius:18px;margin:6px -16px;padding:10px 16px}
+.info>div.no dt{color:var(--warn);font-weight:700}
+.info>div.no dd{color:var(--warn)}
+
+.coupon{margin:20px 0 0;padding:20px 30px 22px}
+.coupon h2{margin:0 0 6px;font-size:30px;font-weight:800}
+.coupon p{margin:0;font-size:28px;line-height:1.42;font-weight:500}
+.coupon b{color:var(--accent);font-weight:800}
+.coupon .cond{margin-top:8px;color:var(--warn);font-weight:700}
+
+.cta{margin-top:auto;background:var(--dark);color:#f6f1e9;border-radius:30px;padding:20px 30px 22px;box-shadow:0 34px 60px -30px rgba(30,20,10,.55)}
+.cta .lab{font-size:24px;font-weight:500;opacity:.68}
+.cta .url{font-size:40px;font-weight:800;letter-spacing:-.012em;line-height:1.25}
+.cta .sub{margin:6px 0 0;font-size:25px;font-weight:500;opacity:.86;line-height:1.4}
+.disc{margin:14px 0 0;font-size:22px;color:var(--mute);text-align:center}
+
+/* coupon square */
+.c2 h1{font-size:62px}
+.steps{margin:22px 0 0;padding:22px 30px 24px}
+.step{display:grid;grid-template-columns:52px 1fr;gap:16px;font-size:32px;line-height:1.45;font-weight:500}
+.step+.step{margin-top:18px}
+.step i{font-style:normal;font-size:46px;line-height:1;font-weight:300;color:var(--accent);padding-top:2px}
+#portrait{padding-top:80px;padding-bottom:60px}
+#portrait .money{margin-top:40px}
+#portrait .info{margin-top:28px;padding:22px 30px}
+#portrait .info>div{padding:12px 0}
+#portrait .info>div.no{padding:12px 16px}
+#portrait .coupon{margin-top:28px}
+.c2{padding-top:64px;padding-bottom:60px}
+.c2 .steps{margin-top:30px}
+.c2 .big-note{margin-top:22px}
+#square1 .money{margin-top:38px}
+#square1 .info{margin-top:26px;padding:20px 30px}
+#square1 .info>div{padding:11px 0}
+#square1 .info>div.no{padding:12px 16px}
+.phrase{margin:16px 0 22px 68px;background:var(--glass-strong);border-radius:20px;padding:14px 22px;font-size:40px;font-weight:800;text-align:center;box-shadow:0 14px 30px -18px rgba(58,38,18,.3)}
+.big-note{margin:16px 0 12px;padding:22px 30px;background:var(--rose);-webkit-backdrop-filter:blur(26px);backdrop-filter:blur(26px);border-radius:30px;box-shadow:var(--lift);
+  font-size:31px;line-height:1.48;font-weight:700;color:var(--warn)}
+/* ChatGPT ad image: few words, large type */
+#ad{padding:84px 72px 72px;justify-content:center}
+#ad .kicker{font-size:36px;margin:0 0 6px}
+#ad h1{font-size:72px;margin:0 0 44px}
+#ad .hero{padding:34px 40px 36px}
+#ad .hero small{display:block;font-size:30px;font-weight:500;color:var(--mute)}
+#ad .hero strong{display:block;font-size:150px;line-height:1.02;font-weight:800;letter-spacing:-.04em}
+#ad .hero + .hero{margin-top:22px}
+#ad .hero.pay strong{font-size:104px;color:var(--accent);padding-top:6px}
+#ad .hero em{font-style:normal;font-size:30px;font-weight:500;color:var(--mute)}
+#ad .meta{margin:40px 0 0;font-size:32px;font-weight:700;line-height:1.5}
+#ad .meta span{color:var(--mute);font-weight:500}
+</style>
+</head>
+<body>
+
+<!-- 1080 x 1350, all-in-one -->
+<section class="card pt" id="portrait">
+  <h1><span class="tag">[모집]</span>강남 생성형 AI 집중 캠프</h1>
+  <div class="money">
+    <div class="glass"><small>교육비</small><strong>0원</strong></div>
+    <div class="glass pay"><small>수료 시 교육활동비</small><strong>최대 150만 원</strong><em>(세전)</em></div>
+  </div>
+  <dl class="info glass">
+    <div><dt>일정</dt><dd>2027년 1월 4일(월)~13일(수), 평일 8일, 09:30~18:00</dd></div>
+    <div><dt>장소</dt><dd>서울 강남</dd></div>
+    <div><dt>대상</dt><dd>만 19~34세 미취업 청년<br>(졸업생, 졸업유예, 1년 이상 휴학 등)</dd></div>
+    <div class="no"><dt>신청 불가</dt><dd>대학·대학원 재학생, 4대보험 가입자</dd></div>
+    <div><dt>모집</dt><dd>선착순 50명, 12월 21일(월) 마감</dd></div>
+  </dl>
+  <div class="coupon glass">
+    <h2>[스타벅스 1만 원 쿠폰]</h2>
+    <p>신청서를 쓰실 때 '지원 동기' 칸 마지막에 <b>"Jason님 추천으로 들어왔습니다"</b>라고 적어 주세요.</p>
+    <p class="cond">※ 쿠폰은 캠프를 수료한 분께만 드립니다.</p>
+  </div>
+  <div class="cta">
+    <div class="lab">신청</div>
+    <div class="url">https://silgilab.vercel.app/camp.html</div>
+    <p class="sub">문의 02-2039-9355 · 주관 아주대학교 청년도약 부트캠프 사업단</p>
+  </div>
+</section>
+
+<!-- 1080 x 1080, card 1 of 2 -->
+<section class="card sq" id="square1">
+  <p class="who"><span class="pg">1/2</span></p>
+  <h1><span class="tag">[모집]</span>강남 생성형 AI 집중 캠프</h1>
+  <div class="money">
+    <div class="glass"><small>교육비</small><strong>0원</strong></div>
+    <div class="glass pay"><small>수료 시 교육활동비</small><strong>최대 150만 원</strong><em>(세전)</em></div>
+  </div>
+  <dl class="info glass">
+    <div><dt>일정</dt><dd>2027년 1월 4일(월)~13일(수), 평일 8일, 09:30~18:00</dd></div>
+    <div><dt>장소</dt><dd>서울 강남</dd></div>
+    <div><dt>대상</dt><dd>만 19~34세 미취업 청년<br>(졸업생, 졸업유예, 1년 이상 휴학 등)</dd></div>
+    <div class="no"><dt>신청 불가</dt><dd>대학·대학원 재학생, 4대보험 가입자</dd></div>
+    <div><dt>모집</dt><dd>선착순 50명, 12월 21일(월) 마감</dd></div>
+  </dl>
+  <div class="cta">
+    <div class="lab">신청</div>
+    <div class="url">https://silgilab.vercel.app/camp.html</div>
+  </div>
+</section>
+
+<!-- 1080 x 1080, card 2 of 2 -->
+<section class="card sq c2" id="square2">
+  <p class="who"><span class="pg">2/2</span></p>
+  <p class="kicker">강남 생성형 AI 집중 캠프</p>
+  <h1>[스타벅스 1만 원 쿠폰]</h1>
+  <div class="steps glass">
+    <div class="step"><i>1</i><div>신청서를 쓰실 때 '지원 동기' 칸 마지막에 "Jason님 추천으로 들어왔습니다"라고 적어 주세요.</div></div>
+    <div class="phrase">Jason님 추천으로 들어왔습니다</div>
+    <div class="step"><i>2</i><div>('캠프를 어떻게 알게 되었나요?'에서는 '지인 추천'을 골라 주세요.)</div></div>
+  </div>
+  <p class="big-note">※ 쿠폰은 캠프를 수료한 분께만 드립니다. 오프라인 8일 출석과 온라인 VOD 2과목 수강을 모두 마쳐야 하며, 신청만 하거나 중간에 그만두시면 드리지 않습니다.</p>
+  <div class="cta">
+    <div class="lab">신청</div>
+    <div class="url">https://silgilab.vercel.app/camp.html</div>
+    <p class="sub">문의 02-2039-9355 · 주관 아주대학교 청년도약 부트캠프 사업단</p>
+  </div>
+</section>
+
+<!-- 1080 x 1080, ChatGPT ad / link preview image -->
+<section class="card sq" id="ad">
+  <p class="kicker">8일 오프라인 과정</p>
+  <h1>강남 생성형 AI 집중 캠프</h1>
+  <div class="hero glass"><small>교육비</small><strong>0원</strong></div>
+  <div class="hero glass pay"><small>수료 시 교육활동비</small><strong>최대 150만 원</strong><em>(세전)</em></div>
+  <p class="meta">2027년 1월 4일(월)~13일(수) · 서울 강남<br><span>만 19~34세 미취업 청년 · 12월 21일(월) 마감</span></p>
+</section>
+
+</body>
+</html>
