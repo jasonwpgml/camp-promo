@@ -91,7 +91,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
   box-shadow:0 0 12px rgba(78,242,176,.65)}
 .ttl .c.h::after,.big .c.h::after{width:.32em}
 .num .c.h::after{width:.2em;top:.12em;bottom:.1em}
-/* the existing page, after the opening (same look as camp.html) */
+/* the existing page, after the opening (same look as camp.html). In the opening it is a dark sheet that covers
+   the finished top block as it comes up; the sheet thins out again a screen further down so the rain returns */
+.fx .rest{padding-top:44px;background:linear-gradient(rgba(11,13,12,0) 0,rgba(11,13,12,.94) 56px,rgba(11,13,12,.94) calc(56px + 100vh),rgba(11,13,12,0) calc(56px + 100vh + 260px))}
 .rest{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:0 16px}
 .rest .glass{background:var(--panel);border-radius:22px;box-shadow:var(--lift)}
 .rest .marks{justify-content:flex-start;gap:12px 22px;margin:16px 0 0}
@@ -286,8 +288,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 //  1  the title types itself in at the centre on arrival, then rises to the top
 //  2  the money and seats type in at the centre of the space left, then rise and settle under the title
 //  3  who can apply and the dates do the same and settle under those
-//  then the top block rides up with the page and breaks up into glyphs on the way; the full page (camp.html)
-//  follows right under it
+//  then the top block breaks up into glyphs where it is, bottom block first, as the full page (camp.html)
+//  rises from below into its place
 (function(){
   var root=document.documentElement;
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;     // plain page
@@ -320,23 +322,24 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
   });
   root.classList.add("fx");
 
-  // u types a scene in line after line, with a short ASCII scramble behind the caret;
-  // v breaks it back up the same way (character -> glyph -> gone), first line first
-  function paint(sc,u,v){
-    v=v||0;var key=u+"|"+v;if(key===sc._key)return;sc._key=key;
-    var pos=u*sc._total, out=v*(sc._total+8), q=Math.floor(pos*3+out*3);
+  // u types a scene in line after line, with a short ASCII scramble behind the caret.
+  // edge is the screen line where the page coming up from below is covering the opening right now:
+  // characters just above it break into glyphs, characters it has passed are gone (they are under the page)
+  function paint(sc,u,edge){
+    var e=edge===undefined?1e9:Math.round(edge), key=u+"|"+e;if(key===sc._key)return;sc._key=key;
+    var pos=u*sc._total, q=Math.floor(pos*3)+Math.floor(e/9);
     sc._lines.forEach(function(L){
-      var n=L.cs.length, z=L.z, h=pos-L.a, o=out-L.a;
+      var n=L.cs.length, z=L.z, h=pos-L.a;
       var hk=h>0&&h<n+z?Math.min(n,Math.ceil(h))-1:-1;      // caret on the newest character while the line is busy
       for(var k=0;k<n;k++){
         var s=L.cs[k], st=k<h-z?"d":k<h?"s":"u";
-        if(st==="d"&&k<o)st=k<o-6?"u":"s";
+        if(st==="d"&&s._y>e-54)st=s._y>e+2?"u":"s";
         var cls=st==="d"?"c":st==="s"?"c s":"c u"; if(k===hk)cls+=" h";
         if(s._st!==cls){s.className=cls;s._st=cls}
         if(st==="s"){var g=G.charAt(hs(s._id,q)%G.length);if(s._g!==g){s.setAttribute("data-g",g);s._g=g}}
       }
     });
-    sc._fade.forEach(function(f){f.style.opacity=ease(clamp(u*3))*(1-clamp(v*2))});
+    sc._fade.forEach(function(f){f.style.opacity=ease(clamp(u*3))*clamp((e-f._y)/40)});
   }
 
   // timeline in units of U (90% of the screen height of scrolling)
@@ -344,7 +347,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
   // per block: when it types in (centred in the free space) and when it rises into its place
   var T={lift:[0,.5], blocks:[null,{type:[.3,.9],rise:[1.0,1.4]},{type:[1.3,1.95],rise:[2.05,2.45]}]};
   var SNAPS=[0,.95,1.98,2.5], stackH=0, slot=[];
-  var HOLD=2.62;                                             // after this the top block rides up with the page and breaks up on the way
+  var HOLD=2.62, GAP=0, EDGE=34;                                      // after HOLD the page below rises; GAP = its distance under the top block then
   function layout(){
     if(innerWidth!==W){W=innerWidth;U=Math.round(innerHeight*.9)}   // a moving phone URL bar changes height only
     H=story.clientHeight;
@@ -353,7 +356,14 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
     titleC=tops[0].offsetTop+tops[0].offsetHeight/2;
     slot=tops.map(function(b){return {top:b.offsetTop,h:b.offsetHeight}});
     stackH=stack.offsetHeight;
-    openH=Math.round(HOLD*U+stackH+22);                       // the page below follows right under the finished top block
+    // where every character sits once the opening is finished (the stage is fixed, so these are screen lines)
+    tops.forEach(function(sc){
+      sc._lines.forEach(function(L){L.cs.forEach(function(c){c._y=c.getBoundingClientRect().bottom})});
+      sc._fade.forEach(function(f){f._y=f.getBoundingClientRect().bottom});
+      sc._key="";
+    });
+    GAP=24;
+    openH=Math.round(HOLD*U+stackH+GAP);                        // the page below starts right under the finished top block
     opening.style.height=openH+"px";
     [].slice.call(opening.querySelectorAll(":scope>i")).forEach(function(m){m.remove()});
     SNAPS.forEach(function(v){var m=document.createElement("i");m.setAttribute("aria-hidden","true");m.style.top=Math.round(v*U)+"px";opening.appendChild(m)});
@@ -364,17 +374,18 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
     raf=0;
     var p=scrollY/U;
     var leave=Math.max(0,scrollY-HOLD*U); p=Math.min(p,HOLD);
-    story.style.transform=leave?"translate3d(0,"+(-leave).toFixed(1)+"px,0)":"";
-    var gone=leave>stackH+60?"hidden":""; if(story._v!==gone){story.style.visibility=gone;story._v=gone}
-    // each block breaks into glyphs while it rises: the title first (it leaves the screen first), a beat apart
-    var out=function(k){return clamp((leave-k*.07*H)/(.3*H))};
+    // the top block stays where it is; the page below rises over its place, and each block breaks into
+    // glyphs just before the rising page reaches it (so the bottom block goes first, the title last)
+    // the page below is a dark sheet sliding up over the opening, which stays put; its solid part starts EDGE px under its top
+    var edge=leave>0?openH-scrollY+EDGE:undefined;
+    var gone=edge!==undefined&&edge<-10?"hidden":""; if(story._v!==gone){story.style.visibility=gone;story._v=gone}
     if(intro<1&&p>.02)intro=1;
     var lift=ease(win(p,T.lift[0],T.lift[1])), y=(H/2-titleC)*(1-lift);
     stack.style.transform="translate3d(0,"+y.toFixed(1)+"px,0)";
-    paint(tops[0],intro,out(0));
+    paint(tops[0],intro,edge);
     for(var k=1;k<tops.length;k++){
       var B=T.blocks[k], u=win(p,B.type[0],B.type[1]), rise=ease(win(p,B.rise[0],B.rise[1]));
-      paint(tops[k],u,out(k));
+      paint(tops[k],u,edge);
       // centre of the free space under where this block will settle, so it never covers what is already up
       var top=y+slot[k].top, target=(top+H-36)/2, dy=(target-(top+slot[k].h/2))*(1-rise);
       var tf=dy>.5?"translate3d(0,"+dy.toFixed(1)+"px,0)":"";
