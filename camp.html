@@ -196,6 +196,9 @@ footer p{margin:0 0 4px}
 </div>
 <script>
 (function(){
+  // referral code = JASON + the date the link was posted: camp.html?c=1118 shows JASON1118 (no c: JASON1116)
+  var m=/[?&]c=(\d{4})(?:&|$)/.exec(location.search);
+  document.getElementById("phrase").textContent="추천코드 JASON"+(m?m[1]:"1116");
   var btn=document.getElementById("copyBtn"),text=document.getElementById("phrase").textContent;
   function done(ok){btn.textContent=ok?"복사됨":"길게 눌러 복사";setTimeout(function(){btn.textContent="코드 복사"},2000)}
   btn.addEventListener("click",function(){

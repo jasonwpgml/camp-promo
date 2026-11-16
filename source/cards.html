@@ -219,6 +219,14 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 
 <script src="../matrix.js"></script>
 <script>
+// cards for a given posting date: open cards.html?c=1118 (render.cjs passes it) and every JASON1116 becomes JASON1118
+(function(){
+  var m=/[?&]c=(\d{4})(?:&|$)/.exec(location.search); if(!m)return;
+  var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),n;
+  while((n=w.nextNode()))if(n.nodeValue.indexOf("JASON1116")>=0)n.nodeValue=n.nodeValue.split("JASON1116").join("JASON"+m[1]);
+})();
+</script>
+<script>
 // same rain as camp.html (wallpaper-matrix defaults), glyphs scaled up because these images are viewed shrunk on phones. render_cards lets it run a few seconds, then stops it and shoots
 window.__rains=[...document.querySelectorAll("canvas.rain")].map(function(cv){var r=wallpaperMatrix.create(cv,{scale:1.1,density:0.3,parallax:false,scatter:false,intercept:false});r.start();return r});
 </script>

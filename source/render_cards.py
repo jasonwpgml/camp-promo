@@ -1,9 +1,11 @@
 """Render the share cards in cards.html to PNG with headless Edge.
 
-Usage: python render_cards.py
+Usage: python render_cards.py [MMDD]
+  MMDD: posting date for the referral code (e.g. 1118 -> JASON1118); default JASON1116
 Writes PNGs next to camp.html (one folder up) and reports any element that
 overflows its card.
 """
+import sys
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
@@ -34,7 +36,8 @@ OVERFLOW_JS = """
 with sync_playwright() as p:
     browser = p.chromium.launch(channel="msedge")
     page = browser.new_page(viewport={"width": 1200, "height": 1400}, device_scale_factor=1)
-    page.goto((HERE / "cards.html").as_uri())
+    code = sys.argv[1] if len(sys.argv) > 1 else ""
+    page.goto((HERE / "cards.html").as_uri() + (f"?c={code}" if code.isdigit() and len(code) == 4 else ""))
     page.evaluate("document.fonts.ready")
     # the dark cards run the wallpaper rain; let it fill in, then freeze it before shooting
     if page.evaluate("!!window.__rains"):
