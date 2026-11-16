@@ -236,8 +236,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
   <p class="step"><i>1</i><span>신청서의 '캠프를 어떻게 알게 되었나요?'에서 '지인 추천'을 골라 주세요.</span></p>
   <p class="step"><i>2</i><span>아래 중 편한 방법 하나로 알려 주세요.</span></p>
   <div class="opt">
-    <p>신청서 '지원 동기' 칸 마지막에 아래 문구 적기</p>
-    <div class="copy"><code id="phrase">Jason님 추천으로 들어왔습니다</code><button type="button" id="copyBtn" data-goatcounter-click="click-copy-phrase" data-goatcounter-title="추천 문구 복사">문구 복사</button></div>
+    <p>신청서 '지원 동기' 칸 마지막 줄에 추천코드 적기</p>
+    <div class="copy"><code id="phrase">추천코드 JASON1116</code><button type="button" id="copyBtn" data-goatcounter-click="click-copy-code" data-goatcounter-title="추천코드 복사">코드 복사</button></div>
   </div>
   <div class="opt">
     <p>신청을 마친 뒤 1:1 오픈채팅방에 "접수 완료했습니다"라고 남기기</p>
@@ -260,7 +260,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 <script>
 (function(){
   var btn=document.getElementById("copyBtn"),text=document.getElementById("phrase").textContent;
-  function done(ok){btn.textContent=ok?"복사됨":"길게 눌러 복사";setTimeout(function(){btn.textContent="문구 복사"},2000)}
+  function done(ok){btn.textContent=ok?"복사됨":"길게 눌러 복사";setTimeout(function(){btn.textContent="코드 복사"},2000)}
   btn.addEventListener("click",function(){
     try{
       if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(function(){done(true)},function(){done(false)});return}
