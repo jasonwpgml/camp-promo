@@ -10,46 +10,50 @@
 <meta property="og:url" content="https://jasonwpgml.github.io/camp-promo/camp.html">
 <meta property="og:title" content="강남 생성형 AI 집중 캠프 | 교육비 0원, 수료 시 교육활동비 최대 150만 원">
 <meta property="og:description" content="8일 동안 바이브코딩으로 AI 에이전트를 직접 만드는 오프라인 과정입니다. 2027년 1월 4일(월)~13일(수), 서울 강남.">
-<meta property="og:image" content="https://jasonwpgml.github.io/camp-promo/ad-1080x1080.png">
+<meta property="og:image" content="https://jasonwpgml.github.io/camp-promo/camp-1080x1080-1.png">
 <meta property="og:image:width" content="1080">
 <meta property="og:image:height" content="1080">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b0d0c">
 <style>
 :root{
-  --ink:#1e1b17; --mute:#6b6157; --accent:#9e4426; --warn:#8a2a1c;
-  --glass:linear-gradient(140deg,rgba(255,255,255,.76),rgba(255,255,255,.46));
-  --glass-strong:linear-gradient(140deg,rgba(255,255,255,.94),rgba(255,255,255,.74));
-  --rose:linear-gradient(140deg,rgba(255,238,232,.94),rgba(255,224,214,.7));
-  --dark:linear-gradient(140deg,rgba(33,29,25,.95),rgba(58,49,40,.9));
-  --lift:0 24px 48px -26px rgba(58,38,18,.36),0 8px 16px -12px rgba(58,38,18,.2);
-  color-scheme:light;
+  --bg:#0b0d0c; --ink:#ecebe5; --mute:#a3a197; --accent:#f2a57e; --warn:#ffb8a8;
+  --panel:rgba(19,22,20,.94); --inset:rgba(255,255,255,.07); --rose:rgba(255,128,104,.14);
+  --light:#ecebe5; --lift:0 24px 48px -24px rgba(0,0,0,.85),0 8px 18px -12px rgba(0,0,0,.6);
+  color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;background:#ebe4d9}
-body{margin:0;color:var(--ink);background:#ebe4d9;
+html{-webkit-text-size-adjust:100%;background:var(--bg)}
+body{margin:0;color:var(--ink);background:transparent;
   font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",system-ui,sans-serif;
   font-size:17px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
-/* shaded backdrop, fixed behind the content */
-.backdrop{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
-  background:
-    radial-gradient(70vmax 50vmax at 10% 0%,#fbf8f2 0%,rgba(251,248,242,0) 62%),
-    radial-gradient(60vmax 60vmax at 100% 30%,#dccdb9 0%,rgba(220,205,185,0) 64%),
-    radial-gradient(70vmax 55vmax at 0% 100%,#c9d0c8 0%,rgba(201,208,200,0) 62%),
-    radial-gradient(60vmax 50vmax at 100% 104%,#a99683 0%,rgba(169,150,131,0) 62%),
-    #ebe4d9}
-.backdrop::before,.backdrop::after{content:"";position:absolute;border-radius:50%;filter:blur(60px)}
-.backdrop::before{width:70vmin;height:55vmin;right:-18vmin;top:18vh;background:rgba(196,128,92,.38)}
-.backdrop::after{width:80vmin;height:60vmin;left:-26vmin;bottom:6vh;background:rgba(120,140,128,.32)}
+/* falling-glyph backdrop: a few columns only, drawn on one canvas behind everything */
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.55}
+@media print{#rain{display:none}}
 
-.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:0 16px}
 a{color:inherit}
 a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 
-.glass{background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%);border-radius:22px;box-shadow:var(--lift)}
+/* opaque-enough panels instead of backdrop blur: blur over a moving canvas costs a repaint every frame */
+.glass{background:var(--panel);border-radius:22px;box-shadow:var(--lift)}
 
+/* funding and host marks, dark-ground versions: the emblems keep their colours on a small white disc,
+   the names turn light. made from the files on the official application page */
+.marks{display:flex;align-items:center;flex-wrap:wrap;gap:12px 22px;margin:24px 0 0}
+.marks img{display:block;width:auto}
+.marks .moe{height:30px}
+.marks .kiat{height:23px}
+.marks .ajou{height:31px}
+@media (max-width:400px){
+  .marks{gap:10px 14px}
+  .marks .moe{height:24px}
+  .marks .kiat{height:18px}
+  .marks .ajou{height:24px}
+}
 
-header{padding:32px 0 4px}
+header{padding:26px 0 4px}
 h1{margin:0;font-size:clamp(28px,8vw,40px);line-height:1.25;letter-spacing:-.03em;font-weight:800}
 h1 .tag{display:block;font-size:16px;font-weight:500;color:var(--mute);letter-spacing:0;margin-bottom:4px}
 .event{margin:6px 0 0;font-size:17px;font-weight:700;color:var(--mute)}
@@ -64,6 +68,8 @@ h1 .tag{display:block;font-size:16px;font-weight:500;color:var(--mute);letter-sp
   .money>div{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:14px 18px}
   .money strong{font-size:36px}
 }
+/* very narrow phones: label above the amount so the label does not break per word */
+@media (max-width:359px){.money>div{display:block}}
 .intro{margin:20px 0 0;font-size:18px}
 
 section{margin:28px 0 0}
@@ -80,19 +86,28 @@ dl.info>div.no dt,dl.info>div.no dd{color:var(--warn);font-weight:700}
 
 .actions{display:grid;gap:12px;margin:26px 0 0}
 .btn{display:block;text-align:center;text-decoration:none;font-weight:800;font-size:19px;padding:17px 18px;border-radius:18px;
-  background:var(--dark);color:#f6f1e9;box-shadow:0 22px 40px -22px rgba(30,20,10,.6)}
-.btn small{display:block;font-weight:500;font-size:13px;opacity:.75;margin-top:2px}
-.btn.call{background:var(--glass);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);color:var(--ink);box-shadow:var(--lift)}
-.btn:hover{filter:brightness(1.06)}
+  background:var(--light);color:#121412;box-shadow:var(--lift)}
+.btn small{display:block;font-weight:500;font-size:13px;opacity:.7;margin-top:2px}
+.btn.call{background:var(--panel);color:var(--ink)}
+.btn:hover{filter:brightness(1.08)}
 
 .coupon{padding:20px 20px 22px}
 .coupon h2{margin-bottom:8px}
 .coupon p{margin:0 0 10px}
 .copy{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:4px 0 14px;
-  background:var(--glass-strong);border-radius:14px;padding:12px 14px;box-shadow:0 10px 24px -16px rgba(58,38,18,.35)}
+  background:var(--inset);border-radius:14px;padding:12px 14px}
 .copy code{font:inherit;font-weight:800}
 .copy button{margin-left:auto;font:inherit;font-size:14px;font-weight:700;border:0;
-  background:var(--dark);color:#f6f1e9;border-radius:10px;padding:6px 14px;cursor:pointer}
+  background:var(--light);color:#121412;border-radius:10px;padding:6px 14px;cursor:pointer}
+.coupon .step{display:grid;grid-template-columns:22px 1fr;gap:8px;margin:0 0 8px}
+.coupon .step i{font-style:normal;font-weight:300;font-size:20px;line-height:1.35;color:var(--accent)}
+.opt{margin:10px 0 0 30px;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.04)}
+.opt p{margin:0 0 10px;font-size:16px;color:var(--mute)}
+.opt .copy{margin:0}
+.chat{display:block;text-align:center;text-decoration:none;font-weight:800;font-size:16px;padding:11px 14px;border-radius:12px;
+  background:#fee500;color:#191600}
+@media (max-width:400px){.opt{margin-left:0}}
+.coupon .note{margin-top:16px}
 .note{margin:14px 0 0;padding:14px 16px;background:var(--rose);border-radius:14px;
   font-size:16px;font-weight:600;color:var(--warn)}
 
@@ -101,8 +116,14 @@ footer p{margin:0 0 4px}
 </style>
 </head>
 <body>
-<div class="backdrop" aria-hidden="true"></div>
+<canvas id="rain" aria-hidden="true"></canvas>
 <div class="wrap">
+
+<div class="marks">
+  <img class="moe" src="img/logo-moe-dark.png" alt="교육부">
+  <img class="kiat" src="img/logo-kiat-dark.png" alt="한국산업기술진흥원(KIAT)">
+  <img class="ajou" src="img/logo-ajou-dark.png" alt="아주대학교">
+</div>
 
 <header>
   <h1><span class="tag">[모집]</span>강남 생성형 AI 집중 캠프</h1>
@@ -134,9 +155,16 @@ footer p{margin:0 0 4px}
 
 <section class="coupon glass" aria-labelledby="h-coupon">
   <h2 id="h-coupon">[스타벅스 1만 원 쿠폰]</h2>
-  <p>신청서를 쓰실 때 '지원 동기' 칸 마지막에 "Jason님 추천으로 들어왔습니다"라고 적어 주세요.</p>
-  <div class="copy"><code id="phrase">Jason님 추천으로 들어왔습니다</code><button type="button" id="copyBtn" data-goatcounter-click="click-copy-phrase" data-goatcounter-title="추천 문구 복사">문구 복사</button></div>
-  <p>('캠프를 어떻게 알게 되었나요?'에서는 '지인 추천'을 골라 주세요.)</p>
+  <p class="step"><i>1</i><span>신청서의 '캠프를 어떻게 알게 되었나요?'에서 '지인 추천'을 골라 주세요.</span></p>
+  <p class="step"><i>2</i><span>아래 중 편한 방법 하나로 알려 주세요.</span></p>
+  <div class="opt">
+    <p>신청서 '지원 동기' 칸 마지막에 아래 문구 적기</p>
+    <div class="copy"><code id="phrase">Jason님 추천으로 들어왔습니다</code><button type="button" id="copyBtn" data-goatcounter-click="click-copy-phrase" data-goatcounter-title="추천 문구 복사">문구 복사</button></div>
+  </div>
+  <div class="opt">
+    <p>신청을 마친 뒤 1:1 오픈채팅방에 "접수 완료했습니다"라고 남기기</p>
+    <a class="chat" href="https://open.kakao.com/o/sTVTZiXi" target="_blank" rel="noopener" data-goatcounter-click="click-openchat" data-goatcounter-title="1:1 오픈채팅 열기">1:1 오픈채팅방 열기</a>
+  </div>
   <p class="note">※ 쿠폰은 캠프를 수료한 분께만 드립니다. 오프라인 8일 출석과 온라인 VOD 2과목 수강을 모두 마쳐야 하며, 신청만 하거나 중간에 그만두시면 드리지 않습니다.</p>
 </section>
 
@@ -156,6 +184,16 @@ footer p{margin:0 0 4px}
       document.body.appendChild(t);t.select();var ok=document.execCommand("copy");document.body.removeChild(t);done(ok);
     }catch(e){done(false)}
   });
+})();
+</script>
+<script src="matrix.js"></script>
+<script>
+// same rain as the desktop wallpaper (wallpaper-matrix defaults). phones get fewer frames and at most 1.5x pixels
+(function(){
+  var cv=document.getElementById("rain");
+  if(!cv||typeof wallpaperMatrix==="undefined")return;
+  var phone=matchMedia("(max-width:700px), (pointer:coarse)").matches;
+  wallpaperMatrix.create(cv,phone?{fps:24,maxDpr:1.5,parallax:false}:{}).start();
 })();
 </script>
 </body>

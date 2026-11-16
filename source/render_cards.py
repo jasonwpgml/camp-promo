@@ -21,7 +21,7 @@ OVERFLOW_JS = """
 (card) => {
   const r = card.getBoundingClientRect();
   const bad = [];
-  for (const el of card.querySelectorAll('*')) {
+  for (const el of card.querySelectorAll('*:not(canvas)')) {
     const b = el.getBoundingClientRect();
     if (b.width === 0 && b.height === 0) continue;
     if (b.right > r.right - 40 || b.bottom > r.bottom - 30 || b.left < r.left + 40)
@@ -36,6 +36,10 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={"width": 1200, "height": 1400}, device_scale_factor=1)
     page.goto((HERE / "cards.html").as_uri())
     page.evaluate("document.fonts.ready")
+    # the dark cards run the wallpaper rain; let it fill in, then freeze it before shooting
+    if page.evaluate("!!window.__rains"):
+        page.wait_for_timeout(3500)
+        page.evaluate("window.__rains.forEach(r => r.stop())")
     for card_id, name in CARDS.items():
         el = page.locator(f"#{card_id}")
         info = el.evaluate(OVERFLOW_JS)

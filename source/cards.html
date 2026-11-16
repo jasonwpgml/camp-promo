@@ -31,6 +31,14 @@ body{margin:0;background:#777;font-family:"Noto Sans KR","Malgun Gothic",sans-se
 
 .glass{background:var(--glass);-webkit-backdrop-filter:blur(26px) saturate(140%);backdrop-filter:blur(26px) saturate(140%);border-radius:30px;box-shadow:var(--lift)}
 
+/* funding and host marks sit on the backdrop; multiply drops the KIAT file's white box.
+   images are used at or below native size */
+.marks{display:flex;align-items:center;gap:44px;margin:0 0 30px}
+.marks img{display:block;width:auto;mix-blend-mode:multiply}
+.marks .moe{height:42px}
+.marks .kiat{height:34px}
+.marks .ajou{height:42px}
+.marks .pg{margin-left:auto;font-size:25px;font-weight:700;color:var(--mute)}
 .who{display:flex;align-items:baseline;font-size:25px;color:var(--mute);margin:0 0 20px;letter-spacing:-.005em}
 .who .pg{margin-left:auto;font-weight:700;color:var(--ink)}
 
@@ -66,27 +74,33 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 .disc{margin:14px 0 0;font-size:22px;color:var(--mute);text-align:center}
 
 /* coupon square */
-.c2 h1{font-size:62px}
+.c2 h1{font-size:58px}
 .steps{margin:22px 0 0;padding:22px 30px 24px}
 .step{display:grid;grid-template-columns:52px 1fr;gap:16px;font-size:32px;line-height:1.45;font-weight:500}
 .step+.step{margin-top:18px}
 .step i{font-style:normal;font-size:46px;line-height:1;font-weight:300;color:var(--accent);padding-top:2px}
-#portrait{padding-top:80px;padding-bottom:60px}
-#portrait .money{margin-top:40px}
-#portrait .info{margin-top:28px;padding:22px 30px}
-#portrait .info>div{padding:12px 0}
+#portrait{padding-top:46px;padding-bottom:48px}
+#portrait .money{margin-top:24px}
+#portrait .info{margin-top:18px;padding:16px 30px}
+#portrait .info>div{padding:7px 0}
 #portrait .info>div.no{padding:12px 16px}
-#portrait .coupon{margin-top:28px}
-.c2{padding-top:64px;padding-bottom:60px}
-.c2 .steps{margin-top:30px}
-.c2 .big-note{margin-top:22px}
-#square1 .money{margin-top:38px}
+#portrait .coupon{margin-top:18px}
+.c2{padding-top:46px;padding-bottom:48px}
+.c2 .steps{margin-top:18px;padding:18px 30px 20px}
+.c2 .step+.step{margin-top:12px}
+.c2 .big-note{margin-top:16px;padding:18px 30px}
+#square1 .money{margin-top:30px}
 #square1 .info{margin-top:26px;padding:20px 30px}
-#square1 .info>div{padding:11px 0}
+#square1 .info>div{padding:8px 0}
 #square1 .info>div.no{padding:12px 16px}
 .phrase{margin:16px 0 22px 68px;background:var(--glass-strong);border-radius:20px;padding:14px 22px;font-size:40px;font-weight:800;text-align:center;box-shadow:0 14px 30px -18px rgba(58,38,18,.3)}
 .big-note{margin:16px 0 12px;padding:22px 30px;background:var(--rose);-webkit-backdrop-filter:blur(26px);backdrop-filter:blur(26px);border-radius:30px;box-shadow:var(--lift);
   font-size:31px;line-height:1.48;font-weight:700;color:var(--warn)}
+.c2 .opts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 0 68px}
+.c2 .opt{display:flex;flex-direction:column;padding:14px 18px 16px;border-radius:20px;background:rgba(255,255,255,.5)}
+.c2 .opt p{margin:0 0 10px;font-size:24px;line-height:1.35;font-weight:500;color:var(--mute)}
+.c2 .opt .phrase,.c2 .chat{margin:auto 0 0;padding:10px 12px;border-radius:16px;font-size:28px;line-height:1.3;font-weight:800;text-align:center;letter-spacing:-.015em}
+.c2 .chat{background:#fee500;color:#191600;box-shadow:0 14px 30px -18px rgba(58,38,18,.3)}
 /* ChatGPT ad image: few words, large type */
 #ad{padding:84px 72px 72px;justify-content:center}
 #ad .kicker{font-size:36px;margin:0 0 6px}
@@ -99,12 +113,33 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 #ad .hero em{font-style:normal;font-size:30px;font-weight:500;color:var(--mute)}
 #ad .meta{margin:40px 0 0;font-size:32px;font-weight:700;line-height:1.5}
 #ad .meta span{color:var(--mute);font-weight:500}
+
+/* dark cards (portrait, square1, square2), matching camp.html. #ad stays light. */
+.dk{--ink:#ecebe5;--mute:#a3a197;--accent:#f2a57e;--warn:#ffb8a8;
+  --glass:rgba(21,25,22,.95);--glass-strong:rgba(255,255,255,.1);--rose:rgba(255,128,104,.15);
+  --lift:0 34px 64px -30px rgba(0,0,0,.9),0 10px 22px -14px rgba(0,0,0,.7);
+  background:#0b0d0c;color:var(--ink)}
+.dk::before,.dk::after{display:none}
+.dk .glass,.dk .big-note{-webkit-backdrop-filter:none;backdrop-filter:none}
+.rain{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.45}
+.chip{display:contents}
+.dk .marks{gap:36px}
+.dk .marks .moe{height:46px}
+.dk .marks .ajou{height:48px}
+.dk .marks{margin-bottom:26px}
+.dk .marks img{mix-blend-mode:normal}
+.dk .cta{background:#ecebe5;color:#121412;box-shadow:var(--lift)}
+.dk .cta .lab{opacity:.62}
+.dk .c2 .opt,.dk.c2 .opt{background:rgba(255,255,255,.05)}
+.dk .phrase{box-shadow:none}
 </style>
 </head>
 <body>
 
 <!-- 1080 x 1350, all-in-one -->
-<section class="card pt" id="portrait">
+<section class="card pt dk" id="portrait">
+  <canvas class="rain" width="1080" height="1350"></canvas>
+  <div class="marks"><span class="chip"><img class="moe" src="../img/logo-moe-dark.png" alt="교육부"><img class="kiat" src="../img/logo-kiat-dark.png" alt="한국산업기술진흥원(KIAT)"><img class="ajou" src="../img/logo-ajou-dark.png" alt="아주대학교"></span></div>
   <h1><span class="tag">[모집]</span>강남 생성형 AI 집중 캠프</h1>
   <div class="money">
     <div class="glass"><small>교육비</small><strong>0원</strong></div>
@@ -119,7 +154,7 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
   </dl>
   <div class="coupon glass">
     <h2>[스타벅스 1만 원 쿠폰]</h2>
-    <p>신청서를 쓰실 때 '지원 동기' 칸 마지막에 <b>"Jason님 추천으로 들어왔습니다"</b>라고 적어 주세요.</p>
+    <p>신청서에서 <b>'지인 추천'</b>을 고르고, '지원 동기' 칸에 "Jason님 추천으로 들어왔습니다"라고 적거나 1:1 오픈채팅방에 "접수 완료했습니다"라고 남겨 주세요.</p>
     <p class="cond">※ 쿠폰은 캠프를 수료한 분께만 드립니다.</p>
   </div>
   <div class="cta">
@@ -130,8 +165,9 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 </section>
 
 <!-- 1080 x 1080, card 1 of 2 -->
-<section class="card sq" id="square1">
-  <p class="who"><span class="pg">1/2</span></p>
+<section class="card sq dk" id="square1">
+  <canvas class="rain" width="1080" height="1080"></canvas>
+  <div class="marks"><span class="chip"><img class="moe" src="../img/logo-moe-dark.png" alt="교육부"><img class="kiat" src="../img/logo-kiat-dark.png" alt="한국산업기술진흥원(KIAT)"><img class="ajou" src="../img/logo-ajou-dark.png" alt="아주대학교"></span><span class="pg">1/2</span></div>
   <h1><span class="tag">[모집]</span>강남 생성형 AI 집중 캠프</h1>
   <div class="money">
     <div class="glass"><small>교육비</small><strong>0원</strong></div>
@@ -151,14 +187,18 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 </section>
 
 <!-- 1080 x 1080, card 2 of 2 -->
-<section class="card sq c2" id="square2">
-  <p class="who"><span class="pg">2/2</span></p>
+<section class="card sq c2 dk" id="square2">
+  <canvas class="rain" width="1080" height="1080"></canvas>
+  <div class="marks"><span class="chip"><img class="moe" src="../img/logo-moe-dark.png" alt="교육부"><img class="kiat" src="../img/logo-kiat-dark.png" alt="한국산업기술진흥원(KIAT)"><img class="ajou" src="../img/logo-ajou-dark.png" alt="아주대학교"></span><span class="pg">2/2</span></div>
   <p class="kicker">강남 생성형 AI 집중 캠프</p>
   <h1>[스타벅스 1만 원 쿠폰]</h1>
   <div class="steps glass">
-    <div class="step"><i>1</i><div>신청서를 쓰실 때 '지원 동기' 칸 마지막에 "Jason님 추천으로 들어왔습니다"라고 적어 주세요.</div></div>
-    <div class="phrase">Jason님 추천으로 들어왔습니다</div>
-    <div class="step"><i>2</i><div>('캠프를 어떻게 알게 되었나요?'에서는 '지인 추천'을 골라 주세요.)</div></div>
+    <div class="step"><i>1</i><div>신청서의 '캠프를 어떻게 알게 되었나요?'에서 '지인 추천'을 골라 주세요.</div></div>
+    <div class="step"><i>2</i><div>아래 중 편한 방법 하나로 알려 주세요.</div></div>
+    <div class="opts">
+      <div class="opt"><p>'지원 동기' 칸 마지막에 적기</p><div class="phrase">Jason님 추천으로<br>들어왔습니다</div></div>
+      <div class="opt"><p>신청 후 1:1 오픈채팅방에<br>"접수 완료했습니다" 남기기</p><div class="chat">open.kakao.com/o/sTVTZiXi</div></div>
+    </div>
   </div>
   <p class="big-note">※ 쿠폰은 캠프를 수료한 분께만 드립니다. 오프라인 8일 출석과 온라인 VOD 2과목 수강을 모두 마쳐야 하며, 신청만 하거나 중간에 그만두시면 드리지 않습니다.</p>
   <div class="cta">
@@ -177,5 +217,10 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
   <p class="meta">2027년 1월 4일(월)~13일(수) · 서울 강남<br><span>만 19~34세 미취업 청년 · 12월 21일(월) 마감</span></p>
 </section>
 
+<script src="../matrix.js"></script>
+<script>
+// same rain as camp.html (wallpaper-matrix defaults), glyphs scaled up because these images are viewed shrunk on phones. render_cards lets it run a few seconds, then stops it and shoots
+window.__rains=[...document.querySelectorAll("canvas.rain")].map(function(cv){var r=wallpaperMatrix.create(cv,{scale:1.1,parallax:false,scatter:false,intercept:false});r.start();return r});
+</script>
 </body>
 </html>
