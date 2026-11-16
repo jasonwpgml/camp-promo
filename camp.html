@@ -83,6 +83,8 @@ dl.info{margin:0;padding:10px 20px}
 dl.info>div{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:10px 0}
 dt{font-weight:500;color:var(--mute)}
 dd{margin:0;font-weight:600}
+dd a{color:var(--accent);text-underline-offset:3px}
+.hint-tel{display:block;margin-top:2px;font-size:14px;font-weight:500;color:var(--mute)}
 dl.info>div.no{background:var(--rose);border-radius:14px;margin:6px -10px;padding:12px 10px}
 dl.info>div.no dt,dl.info>div.no dd{color:var(--warn);font-weight:700}
 @media (max-width:400px){
@@ -90,9 +92,9 @@ dl.info>div.no dt,dl.info>div.no dd{color:var(--warn);font-weight:700}
 }
 
 .actions{display:grid;gap:12px;margin:26px 0 0}
-.btn{display:block;text-align:center;text-decoration:none;font-weight:800;font-size:19px;padding:17px 18px;border-radius:18px;
+.btn{display:block;text-align:center;text-decoration:none;font-weight:800;font-size:clamp(24px,6.6vw,28px);line-height:1.3;padding:20px 18px 18px;border-radius:18px;
   background:var(--light);color:#121412;box-shadow:var(--lift)}
-.btn small{display:block;font-weight:500;font-size:13px;opacity:.7;margin-top:2px}
+.btn small{display:block;font-weight:500;font-size:14px;opacity:.7;margin-top:4px}
 .btn.call{background:var(--panel);color:var(--ink)}
 .btn:hover{filter:brightness(1.08)}
 
@@ -145,7 +147,7 @@ footer p{margin:0 0 4px}
 </div>
 
 <header>
-  <h1><span class="tag">[미취업 청년]</span>교육부 지원 강남 AI 캠프</h1>
+  <h1><span class="tag">[미취업 청년 대상]</span>교육부 지원 강남 AI 캠프</h1>
   <p class="event">(스타벅스 1만원 쿠폰 이벤트)</p>
   <div class="money" role="group" aria-label="교육비 0원, 수료 시 교육활동비 150만 원">
     <div class="glass"><small>교육비</small><strong>0원</strong></div>
@@ -164,13 +166,9 @@ footer p{margin:0 0 4px}
     <div><dt>모집</dt><dd>선착순 50명, 12월 21일(월) 마감</dd></div>
     <div><dt>교육활동비</dt><dd>수료 시 최대 150만 원(세전). 지급 기준이 까다롭지 않아서 빠지지 않고 성실히 참여하시면 받으실 수 있습니다.</dd></div>
     <div><dt>주관</dt><dd>아주대학교 청년도약 부트캠프 사업단</dd></div>
+    <div><dt>문의</dt><dd><a href="tel:02-2039-9355" data-goatcounter-click="click-call" data-goatcounter-title="문의 전화">02-2039-9355</a> <span class="hint-tel">눌러서 전화하기</span></dd></div>
   </dl>
 </section>
-
-<div class="actions">
-  <a class="btn" href="https://silgilab.vercel.app/camp.html" target="_blank" rel="noopener" data-goatcounter-click="click-apply" data-goatcounter-title="신청 페이지 열기">신청 페이지 열기<small>https://silgilab.vercel.app/camp.html</small></a>
-  <a class="btn call" href="tel:02-2039-9355" data-goatcounter-click="click-call" data-goatcounter-title="문의 전화">문의 전화 02-2039-9355</a>
-</div>
 
 <section class="coupon glass" aria-labelledby="h-coupon">
   <h2 id="h-coupon">[스타벅스 1만 원 쿠폰]</h2>
@@ -186,6 +184,10 @@ footer p{margin:0 0 4px}
   </div>
   <p class="note">※ 쿠폰은 캠프를 수료한 분께만 드립니다. 오프라인 8일 출석과 온라인 VOD 2과목 수강을 모두 마쳐야 하며, 신청만 하거나 중간에 그만두시면 드리지 않습니다.</p>
 </section>
+
+<div class="actions">
+  <a class="btn" href="https://silgilab.vercel.app/camp.html" target="_blank" rel="noopener" data-goatcounter-click="click-apply" data-goatcounter-title="신청하러 가기">신청하러 가기<small>https://silgilab.vercel.app/camp.html</small></a>
+</div>
 
 <footer>
   <p>과정에 대한 문의는 <a href="tel:02-2039-9355">02-2039-9355</a>로 해 주세요.</p>
@@ -254,9 +256,9 @@ footer p{margin:0 0 4px}
   els.forEach(function(el){el.setAttribute("data-t","");el._c=wrap(el)});
   document.documentElement.classList.remove("tw");
 
-  function start(el){
+  function start(el,delay){
     if(el._job)return;
-    el._job={el:el,cs:el._c,t0:performance.now(),rate:cps(el,el._c.length)*(1+Math.min(2,queue.length)*.35),head:0,born:[]};
+    el._job={el:el,cs:el._c,t0:performance.now()+(delay||0),rate:cps(el,el._c.length),head:0,born:[]};
     jobs.push(el._job);
     if(!raf)raf=requestAnimationFrame(tick);
   }
@@ -267,7 +269,7 @@ footer p{margin:0 0 4px}
   function tick(now){
     raf=0;
     jobs=jobs.filter(function(j){
-      var cs=j.cs, n=cs.length, head=Math.min(n,Math.floor((now-j.t0)/1000*j.rate));
+      var cs=j.cs, n=cs.length, head=Math.max(0,Math.min(n,Math.floor((now-j.t0)/1000*j.rate)));
       for(var i=j.head;i<head;i++){cs[i].className="c s";j.born[i]=now;cs[i].dataset.g=g()}
       if(head>j.head){if(cs[j.head-1])cs[j.head-1].classList.remove("h");j.head=head;if(head<n&&cs[head-1])cs[head-1].classList.add("h")}
       var busy=false;
@@ -277,14 +279,12 @@ footer p{margin:0 0 4px}
       }
       if(head>=n&&!busy){
         if(!j.end)j.end=now;
-        // the caret hands over to the next line at once, or rests a moment on the last one like a sent message
-        if(queue.length||now-j.end>420){finish(j);return false}
+        if(now-j.end>200){finish(j);return false}
       }
       return true;
     });
-    // one caret at a time: the next queued line starts when the current one has been typed out
-    var lead=jobs[jobs.length-1];
-    if(queue.length&&(!lead||lead.head>=lead.cs.length))start(queue.shift());
+    // every line that has come into view starts together, each a beat after the one above it
+    for(var b=0;queue.length;b++)start(queue.shift(),b*70);
     if(jobs.length||queue.length)raf=requestAnimationFrame(tick);
   }
   function enqueue(el){

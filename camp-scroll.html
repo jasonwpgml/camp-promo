@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0b0d0c">
 <script>
-// the plain page below the opening types in like camp.html; hide its lines until the typer has wrapped them
+// the page below the opening types in like camp.html; hide its lines until the typer has wrapped them
 document.documentElement.classList.add("tw");
 setTimeout(function(){document.documentElement.classList.remove("tw")},4000);
 </script>
@@ -30,13 +30,14 @@ html{-webkit-text-size-adjust:100%;background:var(--bg)}
 body{margin:0;color:var(--ink);background:transparent;
   font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",system-ui,sans-serif;
   font-size:18px;line-height:1.55;word-break:keep-all;overflow-wrap:anywhere}
-#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.7}
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.41}  /* no veil on top: a full-screen translucent layer over the moving rain was the main cost on weak phones */
 a{color:inherit}
 a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:4px}
 
 /* without JS (or with reduced motion) this is a plain page: the top block, then the rest, top to bottom */
 .story{position:relative;z-index:1}
-.stack{max-width:640px;margin:0 auto;padding:56px 20px 0;text-align:center}
+.stack{display:none;max-width:640px;margin:0 auto;padding:56px 20px 0;text-align:center}
+.fx .stack{display:block}
 .sc p{margin:0}
 .stack .sc+.sc{margin-top:22px}
 .k{font-size:14px;font-weight:500;color:var(--mute);letter-spacing:.02em}
@@ -45,7 +46,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .marks img{display:block;width:auto}
 .marks .moe{height:30px}.marks .kiat{height:23px}.marks .ajou{height:31px}
 @media (max-width:400px){.marks{gap:10px 14px}.marks .moe{height:24px}.marks .kiat{height:18px}.marks .ajou{height:24px}}
-h1{margin:2px 0 0;font-size:clamp(28px,7.6vw,42px);font-weight:800;line-height:1.25;letter-spacing:-.03em}
+.ttl{margin:2px 0 0!important;font-size:clamp(28px,7.6vw,42px);font-weight:800;line-height:1.25;letter-spacing:-.03em}
 .event{margin-top:4px!important;font-size:15px;font-weight:700;color:var(--mute)}
 .money{display:flex;justify-content:center;gap:clamp(20px,8vw,64px)}
 .num{font-size:clamp(38px,11vw,60px);font-weight:800;line-height:1.1;letter-spacing:-.04em}
@@ -53,10 +54,18 @@ h1{margin:2px 0 0;font-size:clamp(28px,7.6vw,42px);font-weight:800;line-height:1
 .no{color:var(--warn);font-weight:700}
 .seats{margin-top:12px!important;font-size:clamp(18px,5vw,22px);font-weight:700}
 .when{margin-top:4px!important;font-size:clamp(17px,4.6vw,21px);font-weight:700;line-height:1.45}
-/* opening: the text sits on a fixed stage and types in as the page scrolls; afterwards the stage rides up with the page */
+/* who can apply and when: read at a glance, so larger than the other small print */
+.who .k{font-size:16px}
+.who .when{font-size:clamp(22px,6.2vw,30px);line-height:1.35}
+.who .tax{margin-top:4px!important;font-size:clamp(15px,4.1vw,18px);line-height:1.45}
+/* short screens: the whole top block has to fit, so tighten the spacing and the biggest type a little */
+@media (max-height:720px){
+  .stack{padding-top:44px}.marks{margin-bottom:10px}.stack .sc+.sc{margin-top:14px}
+  .num{font-size:clamp(34px,10vw,46px)}.who .when{font-size:clamp(19px,5.4vw,24px)}.who .tax{font-size:14px}
+}
+/* opening: the text sits on a fixed stage and types in as the page scrolls; afterwards it breaks up into glyphs */
 .fx body{overscroll-behavior-y:none}
-.fx .story{position:fixed;inset:0;overflow:hidden;will-change:transform}
-.fx .story::before{content:"";position:absolute;inset:0;pointer-events:none;background:rgba(11,13,12,.42)}
+.fx .story{position:fixed;inset:0;overflow:hidden}
 .fx .stack{position:absolute;left:0;right:0;top:0;transform-origin:50% 0;will-change:transform}
 .opening{position:relative;z-index:1}
 .opening>i{position:absolute;left:0;width:1px;height:1px;scroll-snap-align:start}
@@ -80,25 +89,43 @@ h1{margin:2px 0 0;font-size:clamp(28px,7.6vw,42px);font-weight:800;line-height:1
   font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;color:var(--accent)}
 .c.h::after{content:"";position:absolute;left:100%;top:.16em;bottom:.12em;width:.45em;margin-left:2px;background:var(--accent);
   box-shadow:0 0 12px rgba(78,242,176,.65)}
-h1 .c.h::after,.big .c.h::after{width:.32em}
+.ttl .c.h::after,.big .c.h::after{width:.32em}
 .num .c.h::after{width:.2em;top:.12em;bottom:.1em}
 /* the existing page, after the opening (same look as camp.html) */
-.rest{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:8px 16px 0}
+.rest{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:0 16px}
 .rest .glass{background:var(--panel);border-radius:22px;box-shadow:var(--lift)}
-.rest .intro{margin:0;font-size:18px}
+.rest .marks{justify-content:flex-start;gap:12px 22px;margin:16px 0 0}
+.rest header{padding:26px 0 4px}
+.rest h1{margin:0;font-size:clamp(28px,8vw,40px);line-height:1.25;letter-spacing:-.03em;font-weight:800}
+.rest h1 .tag{display:block;font-size:16px;font-weight:500;color:var(--mute);letter-spacing:0;margin-bottom:4px}
+.rest .event{margin:6px 0 0!important;font-size:17px;font-weight:700;color:var(--mute)}
+.rest .money{display:grid;grid-template-columns:1fr 1.5fr;gap:12px;margin:22px 0 0}
+.rest .money>div{padding:16px 18px}
+.rest .money small{display:block;font-size:14px;font-weight:500;color:var(--mute)}
+.rest .money strong{display:block;font-size:clamp(28px,8.4vw,42px);line-height:1.15;font-weight:800;letter-spacing:-.03em;white-space:nowrap}
+.rest .money .pay strong{color:var(--accent)}
+@media (max-width:480px){
+  .rest .money{grid-template-columns:1fr}
+  .rest .money>div{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:14px 18px}
+  .rest .money strong{font-size:36px}
+}
+@media (max-width:359px){.rest .money>div{display:block}}
+.rest .intro{margin:20px 0 0;font-size:18px}
 .rest section{margin:28px 0 0}
 .rest h2{margin:0 0 12px;font-size:20px;font-weight:800}
 .rest dl.info{margin:0;padding:10px 20px}
 .rest dl.info>div{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:10px 0}
 .rest dt{font-weight:500;color:var(--mute)}
 .rest dd{margin:0;font-weight:600}
+.rest dd a{color:var(--accent);text-underline-offset:3px}
+.rest .hint-tel{display:block;margin-top:2px;font-size:14px;font-weight:500;color:var(--mute)}
 .rest dl.info>div.no{background:var(--rose);border-radius:14px;margin:6px -10px;padding:12px 10px}
 .rest dl.info>div.no dt,.rest dl.info>div.no dd{color:var(--warn);font-weight:700}
 @media (max-width:400px){.rest dl.info>div{grid-template-columns:1fr;gap:2px}}
 .rest .actions{display:grid;gap:12px;margin:26px 0 0}
-.rest .btn{display:block;text-align:center;text-decoration:none;font-weight:800;font-size:19px;padding:17px 18px;border-radius:18px;
+.rest .btn{display:block;text-align:center;text-decoration:none;font-weight:800;font-size:clamp(24px,6.6vw,28px);line-height:1.3;padding:20px 18px 18px;border-radius:18px;
   background:var(--light);color:#121412;box-shadow:var(--lift)}
-.rest .btn small{display:block;font-weight:500;font-size:13px;opacity:.7;margin-top:2px}
+.rest .btn small{display:block;font-weight:500;font-size:14px;opacity:.7;margin-top:4px}
 .rest .btn.call{background:var(--panel);color:var(--ink)}
 .rest .btn:hover{filter:brightness(1.08)}
 .rest .coupon{padding:20px 20px 22px}
@@ -136,7 +163,7 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
 <div class="opening" id="opening">
 <main class="story" id="story">
 
-<div class="stack">
+<div class="stack" aria-hidden="true">
   <section class="sc">
     <div class="marks fade">
       <img class="moe" src="img/logo-moe-dark.png" alt="교육부">
@@ -144,7 +171,7 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
       <img class="ajou" src="img/logo-ajou-dark.png" alt="아주대학교">
     </div>
     <p class="k t">[미취업 청년 대상]</p>
-    <h1 class="t">교육부 지원 강남 AI 캠프</h1>
+    <p class="ttl t">교육부 지원 강남 AI 캠프</p>
     <p class="event t">(스타벅스 1만원 쿠폰 이벤트)</p>
   </section>
 
@@ -156,13 +183,15 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
     <p class="seats t">선착순 50명 · <span class="mint">12월 21일(월) 마감</span></p>
   </section>
 
-  <section class="sc">
+  <section class="sc who">
     <p class="k t">대상</p>
     <p class="when t">만 19~34세 미취업 청년</p>
-    <p class="tax t">졸업생, 졸업유예, 1년 이상 휴학 등 · <span class="no">대학·대학원 재학생, 4대보험 가입자는 신청 불가</span></p>
-    <p class="k t" style="margin-top:14px">일정 · 장소</p>
+    <p class="tax t">졸업생, 졸업유예, 1년 이상 휴학 등</p>
+    <p class="tax no t">대학·대학원 재학생, 4대보험 가입자는 신청 불가</p>
+    <p class="k t" style="margin-top:18px">일정 · 장소</p>
     <p class="when t">2027년 1월 4일(월)~13일(수)</p>
-    <p class="when t">평일 8일, 09:30~18:00 · <span class="mint">서울 강남</span></p>
+    <p class="when t">평일 8일, 09:30~18:00</p>
+    <p class="when mint t">서울 강남</p>
   </section>
 </div>
 
@@ -170,7 +199,20 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
 </div>
 
 <div class="rest">
-<p class="intro">8일 동안 바이브코딩으로 AI 에이전트를 직접 만드는 오프라인 과정입니다.</p>
+<div class="marks">
+  <img class="moe" src="img/logo-moe-dark.png" alt="교육부">
+  <img class="kiat" src="img/logo-kiat-dark.png" alt="한국산업기술진흥원(KIAT)">
+  <img class="ajou" src="img/logo-ajou-dark.png" alt="아주대학교">
+</div>
+
+<header>
+  <h1><span class="tag">[미취업 청년 대상]</span>교육부 지원 강남 AI 캠프</h1>
+  <p class="event">(스타벅스 1만원 쿠폰 이벤트)</p>
+  <div class="money" role="group" aria-label="교육비 0원, 수료 시 교육활동비 150만 원">
+    <div class="glass"><small>교육비</small><strong>0원</strong></div>
+    <div class="glass pay"><small>수료 시 교육활동비</small><strong>150만 원</strong></div>
+  </div>
+  <p class="intro">8일 동안 바이브코딩으로 AI 에이전트를 직접 만드는 오프라인 과정입니다.</p>
 </header>
 
 <section aria-labelledby="h-info">
@@ -183,13 +225,9 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
     <div><dt>모집</dt><dd>선착순 50명, 12월 21일(월) 마감</dd></div>
     <div><dt>교육활동비</dt><dd>수료 시 최대 150만 원(세전). 지급 기준이 까다롭지 않아서 빠지지 않고 성실히 참여하시면 받으실 수 있습니다.</dd></div>
     <div><dt>주관</dt><dd>아주대학교 청년도약 부트캠프 사업단</dd></div>
+    <div><dt>문의</dt><dd><a href="tel:02-2039-9355" data-goatcounter-click="click-call" data-goatcounter-title="문의 전화">02-2039-9355</a> <span class="hint-tel">눌러서 전화하기</span></dd></div>
   </dl>
 </section>
-
-<div class="actions">
-  <a class="btn" href="https://silgilab.vercel.app/camp.html" target="_blank" rel="noopener" data-goatcounter-click="click-apply" data-goatcounter-title="신청 페이지 열기">신청 페이지 열기<small>https://silgilab.vercel.app/camp.html</small></a>
-  <a class="btn call" href="tel:02-2039-9355" data-goatcounter-click="click-call" data-goatcounter-title="문의 전화">문의 전화 02-2039-9355</a>
-</div>
 
 <section class="coupon glass" aria-labelledby="h-coupon">
   <h2 id="h-coupon">[스타벅스 1만 원 쿠폰]</h2>
@@ -205,6 +243,10 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
   </div>
   <p class="note">※ 쿠폰은 캠프를 수료한 분께만 드립니다. 오프라인 8일 출석과 온라인 VOD 2과목 수강을 모두 마쳐야 하며, 신청만 하거나 중간에 그만두시면 드리지 않습니다.</p>
 </section>
+
+<div class="actions">
+  <a class="btn" href="https://silgilab.vercel.app/camp.html" target="_blank" rel="noopener" data-goatcounter-click="click-apply" data-goatcounter-title="신청하러 가기">신청하러 가기<small>https://silgilab.vercel.app/camp.html</small></a>
+</div>
 
 <footer>
   <p>과정에 대한 문의는 <a href="tel:02-2039-9355">02-2039-9355</a>로 해 주세요.</p>
@@ -244,8 +286,8 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
 //  1  the title types itself in at the centre on arrival, then rises to the top
 //  2  the money and seats type in at the centre of the space left, then rise and settle under the title
 //  3  who can apply and the dates do the same and settle under those
-//  then the stage rides up with the page, and the existing page follows right under the top block
-//  (the opening is only as tall as the scroll it needs plus the top block, so no empty screen in between)
+//  then the top block rides up with the page and breaks up into glyphs on the way; the full page (camp.html)
+//  follows right under it
 (function(){
   var root=document.documentElement;
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;     // plain page
@@ -278,28 +320,31 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
   });
   root.classList.add("fx");
 
-  // u types a scene in line after line, with a short ASCII scramble behind the caret
-  function paint(sc,u){
-    if(u===sc._key)return;sc._key=u;
-    var pos=u*sc._total, q=Math.floor(pos*3);
+  // u types a scene in line after line, with a short ASCII scramble behind the caret;
+  // v breaks it back up the same way (character -> glyph -> gone), first line first
+  function paint(sc,u,v){
+    v=v||0;var key=u+"|"+v;if(key===sc._key)return;sc._key=key;
+    var pos=u*sc._total, out=v*(sc._total+8), q=Math.floor(pos*3+out*3);
     sc._lines.forEach(function(L){
-      var n=L.cs.length, z=L.z, h=pos-L.a;
+      var n=L.cs.length, z=L.z, h=pos-L.a, o=out-L.a;
       var hk=h>0&&h<n+z?Math.min(n,Math.ceil(h))-1:-1;      // caret on the newest character while the line is busy
       for(var k=0;k<n;k++){
         var s=L.cs[k], st=k<h-z?"d":k<h?"s":"u";
+        if(st==="d"&&k<o)st=k<o-6?"u":"s";
         var cls=st==="d"?"c":st==="s"?"c s":"c u"; if(k===hk)cls+=" h";
         if(s._st!==cls){s.className=cls;s._st=cls}
         if(st==="s"){var g=G.charAt(hs(s._id,q)%G.length);if(s._g!==g){s.setAttribute("data-g",g);s._g=g}}
       }
     });
-    sc._fade.forEach(function(f){f.style.opacity=ease(clamp(u*3))});
+    sc._fade.forEach(function(f){f.style.opacity=ease(clamp(u*3))*(1-clamp(v*2))});
   }
 
   // timeline in units of U (90% of the screen height of scrolling)
   var U=1,W=0,H=1,titleC=0,openH=0,introT0=0,intro=0;
   // per block: when it types in (centred in the free space) and when it rises into its place
   var T={lift:[0,.5], blocks:[null,{type:[.3,.9],rise:[1.0,1.4]},{type:[1.3,1.95],rise:[2.05,2.45]}]};
-  var SNAPS=[0,.95,1.98,2.5], HOLD=2.62, stackH=0, slot=[];
+  var SNAPS=[0,.95,1.98,2.5], stackH=0, slot=[];
+  var HOLD=2.62;                                             // after this the top block rides up with the page and breaks up on the way
   function layout(){
     if(innerWidth!==W){W=innerWidth;U=Math.round(innerHeight*.9)}   // a moving phone URL bar changes height only
     H=story.clientHeight;
@@ -308,7 +353,7 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
     titleC=tops[0].offsetTop+tops[0].offsetHeight/2;
     slot=tops.map(function(b){return {top:b.offsetTop,h:b.offsetHeight}});
     stackH=stack.offsetHeight;
-    openH=Math.round(HOLD*U+stackH+22);                        // the page below starts right under the finished top block
+    openH=Math.round(HOLD*U+stackH+22);                       // the page below follows right under the finished top block
     opening.style.height=openH+"px";
     [].slice.call(opening.querySelectorAll(":scope>i")).forEach(function(m){m.remove()});
     SNAPS.forEach(function(v){var m=document.createElement("i");m.setAttribute("aria-hidden","true");m.style.top=Math.round(v*U)+"px";opening.appendChild(m)});
@@ -317,16 +362,19 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
   var raf=0;
   function frame(){
     raf=0;
-    var p=Math.min(scrollY,HOLD*U)/U, leave=Math.max(0,scrollY-HOLD*U);
+    var p=scrollY/U;
+    var leave=Math.max(0,scrollY-HOLD*U); p=Math.min(p,HOLD);
     story.style.transform=leave?"translate3d(0,"+(-leave).toFixed(1)+"px,0)":"";
-    var gone=leave>H?"hidden":""; if(story._v!==gone){story.style.visibility=gone;story._v=gone}
+    var gone=leave>stackH+60?"hidden":""; if(story._v!==gone){story.style.visibility=gone;story._v=gone}
+    // each block breaks into glyphs while it rises: the title first (it leaves the screen first), a beat apart
+    var out=function(k){return clamp((leave-k*.07*H)/(.3*H))};
     if(intro<1&&p>.02)intro=1;
     var lift=ease(win(p,T.lift[0],T.lift[1])), y=(H/2-titleC)*(1-lift);
     stack.style.transform="translate3d(0,"+y.toFixed(1)+"px,0)";
-    paint(tops[0],intro);
+    paint(tops[0],intro,out(0));
     for(var k=1;k<tops.length;k++){
       var B=T.blocks[k], u=win(p,B.type[0],B.type[1]), rise=ease(win(p,B.rise[0],B.rise[1]));
-      paint(tops[k],u);
+      paint(tops[k],u,out(k));
       // centre of the free space under where this block will settle, so it never covers what is already up
       var top=y+slot[k].top, target=(top+H-36)/2, dy=(target-(top+slot[k].h/2))*(1-rise);
       var tf=dy>.5?"translate3d(0,"+dy.toFixed(1)+"px,0)":"";
@@ -335,7 +383,7 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
     var at=p>=SNAPS[2]-.3?3:p>=SNAPS[1]-.3?2:1, num="0"+at;
     if(sn.textContent!==num)sn.textContent=num;
     hint.style.opacity=clamp(1-p*5)*(intro>=1?1:0);
-    var inOpening=leave<stackH*.4;                            // counter and quick link belong to the opening only
+    var inOpening=leave<40;                                   // counter and quick link belong to the opening only
     if(bar._on!==inOpening){bar._on=inOpening;bar.style.opacity=inOpening?"":"0"}
     var showQuick=inOpening&&p>.6;
     if(quick._on!==showQuick){quick._on=showQuick;quick.setAttribute("aria-hidden",showQuick?"false":"true");quick.tabIndex=showQuick?0:-1}
@@ -361,7 +409,7 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
   if(matchMedia("(prefers-reduced-motion: reduce)").matches||!("IntersectionObserver" in window)){
     document.documentElement.classList.remove("tw");return;
   }
-  var SEL=[".intro","h2","dl.info dt","dl.info dd",".btn",".coupon .step span",".opt p","#phrase",".copy button",".chat",".note","footer p"].map(function(x){return ".rest "+x}).join(", ");
+  var SEL=["h1",".event",".money small",".money strong",".intro","h2","dl.info dt","dl.info dd",".btn",".coupon .step span",".opt p","#phrase",".copy button",".chat",".note","footer p"].map(function(x){return ".rest "+x}).join(", ");
   var G="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=<>";
   var TRAIL=4, SETTLE=90;                 // glyph cells behind the caret, ms each stays scrambled
   var g=function(){return G.charAt(Math.random()*G.length|0)};
@@ -392,9 +440,9 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
   els.forEach(function(el){el.setAttribute("data-t","");el._c=wrap(el)});
   document.documentElement.classList.remove("tw");
 
-  function start(el){
+  function start(el,delay){
     if(el._job)return;
-    el._job={el:el,cs:el._c,t0:performance.now(),rate:cps(el,el._c.length)*(1+Math.min(2,queue.length)*.35),head:0,born:[]};
+    el._job={el:el,cs:el._c,t0:performance.now()+(delay||0),rate:cps(el,el._c.length),head:0,born:[]};
     jobs.push(el._job);
     if(!raf)raf=requestAnimationFrame(tick);
   }
@@ -405,7 +453,7 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
   function tick(now){
     raf=0;
     jobs=jobs.filter(function(j){
-      var cs=j.cs, n=cs.length, head=Math.min(n,Math.floor((now-j.t0)/1000*j.rate));
+      var cs=j.cs, n=cs.length, head=Math.max(0,Math.min(n,Math.floor((now-j.t0)/1000*j.rate)));
       for(var i=j.head;i<head;i++){cs[i].className="c s";j.born[i]=now;cs[i].dataset.g=g()}
       if(head>j.head){if(cs[j.head-1])cs[j.head-1].classList.remove("h");j.head=head;if(head<n&&cs[head-1])cs[head-1].classList.add("h")}
       var busy=false;
@@ -415,14 +463,12 @@ h1 .c.h::after,.big .c.h::after{width:.32em}
       }
       if(head>=n&&!busy){
         if(!j.end)j.end=now;
-        // the caret hands over to the next line at once, or rests a moment on the last one like a sent message
-        if(queue.length||now-j.end>420){finish(j);return false}
+        if(now-j.end>200){finish(j);return false}
       }
       return true;
     });
-    // one caret at a time: the next queued line starts when the current one has been typed out
-    var lead=jobs[jobs.length-1];
-    if(queue.length&&(!lead||lead.head>=lead.cs.length))start(queue.shift());
+    // every line that has come into view starts together, each a beat after the one above it
+    for(var b=0;queue.length;b++)start(queue.shift(),b*70);
     if(jobs.length||queue.length)raf=requestAnimationFrame(tick);
   }
   function enqueue(el){
