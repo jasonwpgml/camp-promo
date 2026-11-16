@@ -16,6 +16,11 @@
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0b0d0c">
+<script>
+// hide text that will be typed in until the typer has wrapped it; if the script never runs, show everything after 4s
+document.documentElement.classList.add("tw");
+setTimeout(function(){document.documentElement.classList.remove("tw")},4000);
+</script>
 <style>
 :root{
   --bg:#0b0d0c; --ink:#ecebe5; --mute:#a3a197; --accent:#4ef2b0; --warn:#bff7dc;
@@ -108,11 +113,25 @@ dl.info>div.no dt,dl.info>div.no dd{color:var(--warn);font-weight:700}
   background:#fee500;color:#191600}
 @media (max-width:400px){.opt{margin-left:0}}
 .coupon .note{margin-top:16px}
-.note{margin:14px 0 0;padding:14px 16px;background:var(--rose);border-radius:14px;box-shadow:inset 4px 0 0 var(--accent);
+.note{margin:14px 0 0;padding:14px 16px;background:var(--rose);border-radius:14px;
   font-size:16px;font-weight:600;color:var(--warn)}
 
 footer{margin:28px 0 0;padding:0 0 40px;font-size:14px;color:var(--mute)}
 footer p{margin:0 0 4px}
+
+/* typing-in text: each character is a span. untyped ones are transparent (layout never moves),
+   the few just behind the head show an ASCII glyph on top, and the head carries a block caret */
+.tw [data-t]:not([data-tw]){visibility:hidden}
+.c{position:relative}
+.c.u{color:transparent}
+.c.s{color:transparent}
+.c.s::before{content:attr(data-g);position:absolute;left:0;right:0;top:0;text-align:center;color:var(--accent);
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700}
+.c.h::after{content:"";position:absolute;left:100%;top:.18em;bottom:.12em;width:.55em;margin-left:1px;background:var(--accent);
+  box-shadow:0 0 10px rgba(78,242,176,.6)}
+.btn .c.s::before,.copy button .c.s::before,.chat .c.s::before{color:#0b6b46}
+.btn .c.h::after,.copy button .c.h::after,.chat .c.h::after{background:#0b6b46;box-shadow:none}
+@media print{.c.u,.c.s{color:inherit!important}.c::before,.c::after{content:none!important}}
 </style>
 </head>
 <body>
@@ -193,7 +212,107 @@ footer p{margin:0 0 4px}
   var cv=document.getElementById("rain");
   if(!cv||typeof wallpaperMatrix==="undefined")return;
   var phone=matchMedia("(max-width:700px), (pointer:coarse)").matches;
-  wallpaperMatrix.create(cv,phone?{fps:24,maxDpr:1.5,parallax:false}:{}).start();
+  var base={density:0.3};                       // sparser than the wallpaper so the page stays calm
+  wallpaperMatrix.create(cv,phone?Object.assign(base,{fps:24,maxDpr:1.5,parallax:false}):base).start();
+})();
+</script>
+<script>
+// chat-style typing with a short matrix scramble behind the caret.
+// one rAF loop for every running line; finished lines are unwrapped back to plain text nodes.
+(function(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches||!("IntersectionObserver" in window)){
+    document.documentElement.classList.remove("tw");return;
+  }
+  var SEL="h1, .event, .money small, .money strong, .intro, h2, dl.info dt, dl.info dd, .btn, .coupon .step span, .opt p, #phrase, .copy button, .chat, .note, footer p";
+  var G="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=<>";
+  var TRAIL=4, SETTLE=90;                 // glyph cells behind the caret, ms each stays scrambled
+  var g=function(){return G.charAt(Math.random()*G.length|0)};
+  var els=[].slice.call(document.querySelectorAll(SEL)).filter(function(e){return !e.parentElement.closest("[data-t]")&&!e.querySelector("h1,h2,p")});
+  var jobs=[], queue=[], raf=0;
+
+  function wrap(el){
+    var cs=[], walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT), nodes=[];
+    while(walker.nextNode())nodes.push(walker.currentNode);
+    nodes.forEach(function(n){
+      var f=document.createDocumentFragment();
+      Array.from(n.nodeValue).forEach(function(ch){
+        if(/\s/.test(ch)){f.appendChild(document.createTextNode(ch));return}
+        var s=document.createElement("span");s.className="c u";s.textContent=ch;f.appendChild(s);cs.push(s);
+      });
+      n.parentNode.replaceChild(f,n);
+    });
+    el.setAttribute("data-tw","");
+    return cs;
+  }
+  function unwrap(el){
+    [].slice.call(el.querySelectorAll("span.c")).forEach(function(s){s.parentNode.replaceChild(document.createTextNode(s.textContent),s)});
+    el.normalize();
+  }
+  // titles a little slower than body text, short numbers slower still so the scramble reads
+  function cps(el,n){return el.matches("h1,h2")?26:el.matches(".money strong")?12:n>40?55:40}
+
+  els.forEach(function(el){el.setAttribute("data-t","");el._c=wrap(el)});
+  document.documentElement.classList.remove("tw");
+
+  function start(el){
+    if(el._job)return;
+    el._job={el:el,cs:el._c,t0:performance.now(),rate:cps(el,el._c.length)*(1+Math.min(2,queue.length)*.35),head:0,born:[]};
+    jobs.push(el._job);
+    if(!raf)raf=requestAnimationFrame(tick);
+  }
+  function finish(j){
+    j.cs.forEach(function(s){s.className="c"});
+    unwrap(j.el);j.done=true;
+  }
+  function tick(now){
+    raf=0;
+    jobs=jobs.filter(function(j){
+      var cs=j.cs, n=cs.length, head=Math.min(n,Math.floor((now-j.t0)/1000*j.rate));
+      for(var i=j.head;i<head;i++){cs[i].className="c s";j.born[i]=now;cs[i].dataset.g=g()}
+      if(head>j.head){if(cs[j.head-1])cs[j.head-1].classList.remove("h");j.head=head;if(head<n&&cs[head-1])cs[head-1].classList.add("h")}
+      var busy=false;
+      for(var k=Math.max(0,head-TRAIL-6);k<head;k++){
+        var s=cs[k];if(!s||s.className.indexOf(" s")<0)continue;
+        if(now-j.born[k]>SETTLE){s.classList.remove("s")}else{s.dataset.g=g();busy=true}
+      }
+      if(head>=n&&!busy){
+        if(!j.end)j.end=now;
+        // the caret hands over to the next line at once, or rests a moment on the last one like a sent message
+        if(queue.length||now-j.end>420){finish(j);return false}
+      }
+      return true;
+    });
+    // one caret at a time: the next queued line starts when the current one has been typed out
+    var lead=jobs[jobs.length-1];
+    if(queue.length&&(!lead||lead.head>=lead.cs.length))start(queue.shift());
+    if(jobs.length||queue.length)raf=requestAnimationFrame(tick);
+  }
+  function enqueue(el){
+    if(el._job||queue.indexOf(el)>=0)return;
+    queue.push(el);queue.sort(function(a,b){return a.compareDocumentPosition(b)&4?-1:1});
+    if(!raf)raf=requestAnimationFrame(tick);
+  }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){enqueue(e.target);io.unobserve(e.target)}});
+  },{threshold:0.5});
+  els.forEach(function(el){io.observe(el)});
+  // lines the reader has already scrolled past (a fling can jump over them without any intersection change)
+  // are shown at once instead of being typed out of sight
+  var pending=els.slice(), sq=0;
+  function sweep(){
+    sq=0;
+    pending=pending.filter(function(el){
+      if(el._job)return false;
+      if(el.getBoundingClientRect().top>=0)return true;
+      io.unobserve(el);var i=queue.indexOf(el);if(i>=0)queue.splice(i,1);
+      el._job={done:true};el._c.forEach(function(s){s.className="c"});unwrap(el);
+      return false;
+    });
+    if(!pending.length)removeEventListener("scroll",onScroll);
+  }
+  function onScroll(){if(!sq)sq=requestAnimationFrame(sweep)}
+  addEventListener("scroll",onScroll,{passive:true});
+  addEventListener("beforeprint",function(){jobs.concat(queue.map(function(el){return {el:el,cs:el._c}})).forEach(function(j){if(!j.done){j.cs.forEach(function(s){s.className="c"});unwrap(j.el)}})});
 })();
 </script>
 </body>

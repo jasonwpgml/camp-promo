@@ -132,7 +132,6 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 .dk .cta .lab{opacity:.62}
 .dk .c2 .opt,.dk.c2 .opt{background:rgba(255,255,255,.05)}
 .dk .phrase{box-shadow:none}
-.dk .big-note{box-shadow:inset 6px 0 0 var(--accent),var(--lift)}
 </style>
 </head>
 <body>
@@ -221,7 +220,7 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 <script src="../matrix.js"></script>
 <script>
 // same rain as camp.html (wallpaper-matrix defaults), glyphs scaled up because these images are viewed shrunk on phones. render_cards lets it run a few seconds, then stops it and shoots
-window.__rains=[...document.querySelectorAll("canvas.rain")].map(function(cv){var r=wallpaperMatrix.create(cv,{scale:1.1,parallax:false,scatter:false,intercept:false});r.start();return r});
+window.__rains=[...document.querySelectorAll("canvas.rain")].map(function(cv){var r=wallpaperMatrix.create(cv,{scale:1.1,density:0.3,parallax:false,scatter:false,intercept:false});r.start();return r});
 </script>
 </body>
 </html>
