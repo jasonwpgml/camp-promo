@@ -43,7 +43,7 @@ body{margin:0;background:#777;font-family:"Noto Sans KR","Malgun Gothic",sans-se
 .who .pg{margin-left:auto;font-weight:700;color:var(--ink)}
 
 h1{margin:0;font-size:66px;line-height:1.16;font-weight:800;letter-spacing:-.032em}
-h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin-right:14px;vertical-align:8px}
+h1 .tag{display:block;font-size:32px;font-weight:500;color:var(--mute);letter-spacing:0;line-height:1.3;margin-bottom:2px}
 .kicker{margin:0 0 4px;font-size:30px;font-weight:500;color:var(--mute)}
 
 .money{display:grid;grid-template-columns:318px 1fr;gap:20px;margin:28px 0 0}
@@ -114,7 +114,7 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 #ad .meta{margin:40px 0 0;font-size:32px;font-weight:700;line-height:1.5}
 #ad .meta span{color:var(--mute);font-weight:500}
 
-/* dark cards (portrait, square1, square2), matching camp.html. #ad stays light. */
+/* dark cards, matching camp.html. The ad keeps no logos or coupon brand (ad policy) and a fainter rain so it stays simple when shown small. */
 .dk{--ink:#ecebe5;--mute:#a3a197;--accent:#4ef2b0;--warn:#bff7dc;
   --glass:rgba(21,25,22,.95);--glass-strong:rgba(255,255,255,.1);--rose:rgba(78,242,176,.10);
   --lift:0 34px 64px -30px rgba(0,0,0,.9),0 10px 22px -14px rgba(0,0,0,.7);
@@ -132,6 +132,15 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 .dk .cta .lab{opacity:.62}
 .dk .c2 .opt,.dk.c2 .opt{background:rgba(255,255,255,.05)}
 .dk .phrase{box-shadow:none}
+#ad .rain{opacity:.3}
+/* the title tag sits on its own line; win the height back from the gaps */
+#portrait .marks,#square1 .marks{margin-bottom:16px}
+#portrait .money{margin-top:18px}
+#portrait .info{margin-top:14px}
+#portrait .info>div{padding:5px 0}
+#square1 .money{margin-top:20px}
+#square1 .info{margin-top:18px}
+#square1 .info>div{padding:6px 0}
 </style>
 </head>
 <body>
@@ -140,14 +149,14 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 <section class="card pt dk" id="portrait">
   <canvas class="rain" width="1080" height="1350"></canvas>
   <div class="marks"><span class="chip"><img class="moe" src="../img/logo-moe-dark.png" alt="교육부"><img class="kiat" src="../img/logo-kiat-dark.png" alt="한국산업기술진흥원(KIAT)"><img class="ajou" src="../img/logo-ajou-dark.png" alt="아주대학교"></span></div>
-  <h1><span class="tag">[미취업 청년]</span>교육부 지원 강남 AI 캠프</h1>
+  <h1><span class="tag">[국비지원 · 8일 단기과정]</span>강남 AI Agent 부트캠프</h1>
   <div class="money">
     <div class="glass"><small>교육비</small><strong>0원</strong></div>
     <div class="glass pay"><small>수료 시 교육활동비</small><strong>150만 원</strong><em>(세전)</em></div>
   </div>
   <dl class="info glass">
     <div><dt>일정</dt><dd>2027년 1월 4일(월)~13일(수), 평일 8일, 09:30~18:00</dd></div>
-    <div><dt>장소</dt><dd>서울 강남</dd></div>
+    <div><dt>장소</dt><dd>서울 강남 (세부 장소는 12월 발표 예정)</dd></div>
     <div><dt>대상</dt><dd>만 19~34세 미취업 청년<br>(졸업생, 졸업유예, 1년 이상 휴학 등)</dd></div>
     <div class="no"><dt>신청 불가</dt><dd>대학·대학원 재학생, 4대보험 가입자</dd></div>
     <div><dt>모집</dt><dd>선착순 50명, 12월 21일(월) 마감</dd></div>
@@ -168,14 +177,14 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 <section class="card sq dk" id="square1">
   <canvas class="rain" width="1080" height="1080"></canvas>
   <div class="marks"><span class="chip"><img class="moe" src="../img/logo-moe-dark.png" alt="교육부"><img class="kiat" src="../img/logo-kiat-dark.png" alt="한국산업기술진흥원(KIAT)"><img class="ajou" src="../img/logo-ajou-dark.png" alt="아주대학교"></span><span class="pg">1/2</span></div>
-  <h1><span class="tag">[미취업 청년]</span>교육부 지원 강남 AI 캠프</h1>
+  <h1><span class="tag">[국비지원 · 8일 단기과정]</span>강남 AI Agent 부트캠프</h1>
   <div class="money">
     <div class="glass"><small>교육비</small><strong>0원</strong></div>
     <div class="glass pay"><small>수료 시 교육활동비</small><strong>150만 원</strong><em>(세전)</em></div>
   </div>
   <dl class="info glass">
     <div><dt>일정</dt><dd>2027년 1월 4일(월)~13일(수), 평일 8일, 09:30~18:00</dd></div>
-    <div><dt>장소</dt><dd>서울 강남</dd></div>
+    <div><dt>장소</dt><dd>서울 강남 (세부 장소는 12월 발표 예정)</dd></div>
     <div><dt>대상</dt><dd>만 19~34세 미취업 청년<br>(졸업생, 졸업유예, 1년 이상 휴학 등)</dd></div>
     <div class="no"><dt>신청 불가</dt><dd>대학·대학원 재학생, 4대보험 가입자</dd></div>
     <div><dt>모집</dt><dd>선착순 50명, 12월 21일(월) 마감</dd></div>
@@ -190,7 +199,7 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 <section class="card sq c2 dk" id="square2">
   <canvas class="rain" width="1080" height="1080"></canvas>
   <div class="marks"><span class="chip"><img class="moe" src="../img/logo-moe-dark.png" alt="교육부"><img class="kiat" src="../img/logo-kiat-dark.png" alt="한국산업기술진흥원(KIAT)"><img class="ajou" src="../img/logo-ajou-dark.png" alt="아주대학교"></span><span class="pg">2/2</span></div>
-  <p class="kicker">교육부 지원 강남 AI 캠프</p>
+  <p class="kicker">[국비지원 · 8일 단기과정] 강남 AI Agent 부트캠프</p>
   <h1>[스타벅스 1만 원 쿠폰]</h1>
   <div class="steps glass">
     <div class="step"><i>1</i><div>신청서의 '캠프를 어떻게 알게 되었나요?'에서 '지인 추천'을 골라 주세요.</div></div>
@@ -209,9 +218,10 @@ h1 .tag{font-size:34px;font-weight:500;color:var(--mute);letter-spacing:0;margin
 </section>
 
 <!-- 1080 x 1080, ChatGPT ad / link preview image -->
-<section class="card sq" id="ad">
-  <p class="kicker">8일 오프라인 과정</p>
-  <h1>강남 생성형 AI 집중 캠프</h1>
+<section class="card sq dk" id="ad">
+  <canvas class="rain" width="1080" height="1080"></canvas>
+  <p class="kicker">[국비지원 · 8일 단기과정] 내일배움카드 없이 신청</p>
+  <h1>강남 AI Agent 부트캠프</h1>
   <div class="hero glass"><small>교육비</small><strong>0원</strong></div>
   <div class="hero glass pay"><small>수료 시 교육활동비</small><strong>최대 150만 원</strong><em>(세전)</em></div>
   <p class="meta">2027년 1월 4일(월)~13일(수) · 서울 강남<br><span>만 19~34세 미취업 청년 · 12월 21일(월) 마감</span></p>
